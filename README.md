@@ -1,0 +1,1 @@
+FDP (Fix Dead Pixel) is a simple html page programmed to cycle rapidly through the colors of pixels to fix dead pixels on displays, change of the size of the window as needed for affected area, and adjust the code for a bigger area for ease if needed.
