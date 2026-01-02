@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fix Dead Pixel (FDP)</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: black; }
+        #flasher {
+            width: 200px;
+            height: 200px;
+            cursor: move;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div id="flasher"></div>
+    <script>
+        const box = document.getElementById('flasher');
+        const colors = ['red', 'green', 'blue', 'white', 'black', 'yellow'];
+        let i = 0;
+        
+        // Rapidly change colors every 10 milliseconds
+        setInterval(() => {
+            box.style.backgroundColor = colors[i];
+            i = (i + 1) % colors.length;
+        }, 10);
+
+        // Make the box draggable
+        box.onmousedown = function(e) {
+            let shiftX = e.clientX - box.getBoundingClientRect().left;
+            let shiftY = e.clientY - box.getBoundingClientRect().top;
+            function moveAt(pageX, pageY) {
+                box.style.left = pageX - shiftX + (box.offsetWidth / 2) + 'px';
+                box.style.top = pageY - shiftY + (box.offsetHeight / 2) + 'px';
+            }
+            function onMouseMove(e) { moveAt(e.pageX, e.pageY); }
+            document.addEventListener('mousemove', onMouseMove);
+            box.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                box.onmouseup = null;
+            };
+        };
+        box.ondragstart = function() { return false; };
+    </script>
+</body>
+</html>
